@@ -1,36 +1,33 @@
-﻿
-using TaskManager.API.Models;
-using Microsoft.EntityFrameworkCore;
-using TaskManager.API.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using TaskManager.Application.Interfaces;
+using TaskManager.Domain.Models;
+using TaskManager.Infrastructure.Data;
 
-
-namespace TaskManager.API.Services
+namespace TaskManager.Infrastructure.Repositories
 {
-    public class TaskService : ITaskService
+    public class TaskRepository : ITaskRepository
     {
         private readonly AppDbContext _context;
-
-        public TaskService(AppDbContext context)
-        {
-            _context = context;
+        public TaskRepository(AppDbContext context) { 
+        _context = context;
         }
 
-        public async Task<List<TaskItem>> GetAllTasksAsync()
-        {
-            return await _context.TaskItems.ToListAsync();
-        }
+        public async Task<List<TaskItem>> GetAllTasksAsync() {
 
-        public async Task<TaskItem> GetByIdAsync(int id)
-        {
-            return await _context.TaskItems.FindAsync(id);
+            return await _context.TaskItems.ToListAsync();        
         }
-
 
         public async Task<TaskItem> CreateTaskAsync(TaskItem task)
         {
-           _context.TaskItems.Add(task);
+            _context.TaskItems.Add(task);
             await _context.SaveChangesAsync();
             return task;
+            
+        }
+
+        public async Task<TaskItem?> GetByIdAsync(int id)
+        {
+            return await _context.TaskItems.FindAsync(id);
         }
 
         public async Task<bool> UpdateTaskAsync(int id, TaskItem task)
@@ -40,7 +37,7 @@ namespace TaskManager.API.Services
             {
                 return false;
             }
-            existingTask.Title = task.Title;           
+            existingTask.Title = task.Title;
             existingTask.IsCompleted = task.IsCompleted;
 
             await _context.SaveChangesAsync();
@@ -60,5 +57,6 @@ namespace TaskManager.API.Services
 
             return true;
         }
+
     }
 }

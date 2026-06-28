@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TaskManager.API.Models;
-using TaskManager.API.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using TaskManager.Application.Interfaces;
+using TaskManager.Domain.Models;
 
 
 namespace TaskManager.API.Controllers
@@ -35,7 +35,7 @@ namespace TaskManager.API.Controllers
             }
 
             return Ok(task);
-            
+
         }
 
 
