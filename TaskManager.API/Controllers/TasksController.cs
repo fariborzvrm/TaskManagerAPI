@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.Interfaces;
 using TaskManager.Domain.Models;
-
+using TaskManager.Application.DTOs;
 
 namespace TaskManager.API.Controllers
 {
@@ -25,7 +25,9 @@ namespace TaskManager.API.Controllers
             var tasks = await _taskService.GetAllTasksAsync();
             return Ok(tasks);
         }
-        [HttpGet]
+
+
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var task = await _taskService.GetByIdAsync(id);
@@ -41,9 +43,10 @@ namespace TaskManager.API.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> Create(TaskItem task)
+        public async Task<IActionResult> Create(CreateTaskDto dto)
         {
-            var createdTask = await _taskService.CreateTaskAsync(task);
+            
+            var createdTask = await _taskService.CreateTaskAsync(dto);
 
             return CreatedAtAction(nameof(GetById), new { id = createdTask.Id }, createdTask);
 
@@ -51,16 +54,20 @@ namespace TaskManager.API.Controllers
 
         [HttpPut("{id}")]
 
-        public async Task<IActionResult> Update(int id, TaskItem task)
+        public async Task<IActionResult> Update(int id,UpdateTaskDto dto)
         {
-            var result = await _taskService.UpdateTaskAsync(id, task);
+            
 
-            if (result)
+            var result = await _taskService.UpdateTaskAsync(id,dto);
+
+            if (!result)
             {
-                return NoContent();
+                
+                return NotFound();
+
             }
 
-            return NotFound();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
