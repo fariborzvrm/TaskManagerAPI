@@ -37,8 +37,8 @@ namespace TaskManager.API.Middleware
 
                 var statusCode = ex switch
                 {
-                    Application.Exceptions.ArgumentException => HttpStatusCode.NotFound,
-                    System.ArgumentException => HttpStatusCode.BadRequest,
+                    NotFoundException => HttpStatusCode.NotFound,
+                    ArgumentException => HttpStatusCode.BadRequest,
                     UnauthorizedException => HttpStatusCode.Unauthorized,
                     _ => HttpStatusCode.InternalServerError
                 };
