@@ -3,4 +3,5 @@
   <Project Path="TaskManager.API/TaskManager.API.csproj" />
   <Project Path="TaskManager.Application/TaskManager.Application.csproj" Id="bf99e8e1-be2e-4ee8-a177-c6647dba990a" />
   <Project Path="TaskManager.Infrastructure/TaskManager.Infrastructure.csproj" Id="b7e0be51-c9a5-4b34-a35a-64f89baa7eb2" />
+  <Project Path="TodoApp.Application.UnitTests/TaskManager.Application.UnitTests.csproj" Id="1b4f76c5-b8da-4ed0-99c4-1841f304baf3" />
 </Solution>

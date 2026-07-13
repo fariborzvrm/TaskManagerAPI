@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using System.ComponentModel.DataAnnotations;
 using TaskManager.Application.DTOs;
 using TaskManager.Application.Exceptions;
@@ -12,19 +13,23 @@ namespace TaskManager.Application.Services
     {
         private readonly ITaskRepository _taskRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public TaskService(ITaskRepository taskRepository, IUnitOfWork unitOfWork)
+        public TaskService(ITaskRepository taskRepository, IUnitOfWork unitOfWork , IMapper mapper)
         {
             _taskRepository = taskRepository;
             _unitOfWork = unitOfWork;
+
+            _mapper = mapper;
         }
 
         public async Task<List<TaskResponseDto>> GetAllTasksAsync()
         {
             var tasks = await _taskRepository.GetAllTasksAsync();            
 
-            return tasks.Select(task => task.ToTaskResponseDto()).ToList();
-            
+           
+           return _mapper.Map<List<TaskResponseDto>>(tasks);
+
         }
 
         public async Task<TaskResponseDto> GetByIdAsync(int id)
@@ -34,7 +39,8 @@ namespace TaskManager.Application.Services
 
             return task == null ?
                 throw new NotFoundException("Task not found.") : 
-                task.ToTaskResponseDto();
+                
+                _mapper.Map<TaskResponseDto>(task);
 
             
         }
@@ -57,7 +63,9 @@ namespace TaskManager.Application.Services
             await _taskRepository.CreateTaskAsync(task);
             await _unitOfWork.SaveChangesAsync();
 
-            return task.ToTaskResponseDto();
+            
+
+            return _mapper.Map<TaskResponseDto>(task);
 
         }
 
@@ -74,7 +82,7 @@ namespace TaskManager.Application.Services
 
             if (isDuplicateTitle)
             
-                throw new DuplicateTaskTitleException($"A task with the title '{dto.Title}' already exists.");
+                throw new DuplicateTaskTitleException($"A task with the title '{dto.Title}' and a different '{id}' already exists.");
             
 
             task.Title = dto.Title;

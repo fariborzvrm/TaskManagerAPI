@@ -10,6 +10,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using TaskManager.Infrastructure;
 using TaskManager.Application;
+using TaskManager.Application.Mappings;
 
 
 
@@ -27,6 +28,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateTaskValidator>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
 

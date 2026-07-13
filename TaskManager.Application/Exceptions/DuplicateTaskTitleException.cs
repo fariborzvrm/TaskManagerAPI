@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TaskManager.Application.Exceptions
 {
-    internal class DuplicateTaskTitleException : Exception
+    public class DuplicateTaskTitleException : Exception
     {
         public DuplicateTaskTitleException(string message) : base(message) { }
     }

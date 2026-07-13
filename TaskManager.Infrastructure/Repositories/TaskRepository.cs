@@ -69,7 +69,7 @@ namespace TaskManager.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<bool> ExistsByTitleExceptIdAsync(string title, int id) =>
+        public async Task<bool> ExistsByTitleExceptIdAsync( string title, int id) =>
         
                  await _context.TaskItems
                 .AnyAsync(task => task.Title.ToLower() == title.ToLower() && task.Id != id);
